@@ -5,6 +5,7 @@
 - create env file.
 - theming.
 - yandex metrics.
+- mobile layouting have sense?
 - draggable jquery template.
 - puppeteer testing extension.
 - backend for subscription (which unblock some sEngines).

@@ -20,17 +20,14 @@ window.addEventListener('load', async () => {
 
     createInput()
 
+    checkScriptAccessibility()
+
+    initBootstrapJs()
+
     // getStorageItem('theme', function (interrupted) {
     //     if (theme) {}
     // });
 });
-
-// ----- Utils -----
-
-// Use background.js instead?
-function setStorageItem(varName, data) {}
-
-function getStorageItem(varName, callback) {}
 
 // ----- Create html -----
 
@@ -128,7 +125,6 @@ function createInput() {
     // <div class="dropdown-menu">
     const dropDownEl = document.createElement('div');
     dropDownEl.classList.add('dropdown-menu');
-    dropDownEl.classList.add('show');
     liDropDownEl.appendChild(dropDownEl);
 
     // <a class="dropdown-item" href="#">Action</a>
@@ -181,4 +177,49 @@ function createInput() {
     buttonEl.setAttribute('type', 'submit');
     buttonEl.innerHTML = 'Search';
     formEl.appendChild(buttonEl);
+}
+
+// ----- Utils -----
+
+// Use background.js instead?
+function setStorageItem(varName, data) {}
+
+function getStorageItem(varName, callback) {}
+
+function checkScriptAccessibility() {
+    if (typeof Popper !== 'undefined') {
+        console.log('Popper.js is available');
+    } else {
+        console.log('Popper.js is not available');
+    }
+
+    if (typeof jQuery !== 'undefined') {
+        console.log('jQuery is available');
+    } else {
+        console.log('jQuery is not available');
+    }
+
+    if (typeof bootstrap !== 'undefined') {
+        console.log('Bootstrap.js is available');
+    } else {
+        console.log('Bootstrap.js is not available');
+    }
+}
+
+function initBootstrapJs() {
+    const burgerButton = document.querySelector('.navbar-toggler');
+    const navBarCollapse = document.querySelector('.navbar-collapse');
+
+    burgerButton.addEventListener('click', () => {
+        navBarCollapse.classList.toggle('show');
+    });
+
+    const dropdownToggle = document.querySelectorAll('.dropdown-toggle');
+
+    dropdownToggle.forEach((toggle) => {
+        toggle.addEventListener('click', (e) => {
+            const dropdownMenu = e.target.nextElementSibling;
+            dropdownMenu.classList.toggle('show');
+        });
+    });
 }
