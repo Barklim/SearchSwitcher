@@ -1,6 +1,6 @@
 .SSwrapperContent {
     position: fixed;
-    top: 0;
+    top: 30px;
     height: 100%;
     width: 100%;
     /* remove */
@@ -16,7 +16,7 @@
 .SScontainer {
     z-index: 1000000;
     /*background-color: #00a379;*/
-    /*border: 1px solid red !important;*/
+    border: 1px solid rgba(255, 0, 0, .3);
     width: 90%;
     min-width: 400px;
 }

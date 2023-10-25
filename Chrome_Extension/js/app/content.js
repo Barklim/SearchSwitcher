@@ -128,7 +128,7 @@ function createInput() {
     // <div class="dropdown-menu">
     const dropDownEl = document.createElement('div');
     dropDownEl.classList.add('dropdown-menu');
-    // dropDownEl.classList.add('show');
+    dropDownEl.classList.add('show');
     liDropDownEl.appendChild(dropDownEl);
 
     // <a class="dropdown-item" href="#">Action</a>
