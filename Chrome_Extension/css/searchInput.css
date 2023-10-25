@@ -1,0 +1,22 @@
+.SSwrapperContent {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    /* remove */
+    z-index: 1000000;
+
+}
+
+.SSwrapperContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.SScontainer {
+    z-index: 1000000;
+    /*background-color: #00a379;*/
+    /*border: 1px solid red !important;*/
+    width: 90%;
+    min-width: 400px;
+}

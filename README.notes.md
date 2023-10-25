@@ -1,7 +1,11 @@
 ## TODO
 
+- linter, prettier.
+- i18n.
 - create env file.
 - theming.
+- yandex metrics.
+- draggable jquery template.
 - puppeteer testing extension.
 - backend for subscription (which unblock some sEngines).
 - validation inputs.
@@ -10,3 +14,4 @@
 ## Useful Links
 
 - [Angular scope](https://code.angularjs.org/1.2.27/docs/guide/scope)
+- [bootswatch](https://bootswatch.com/)
