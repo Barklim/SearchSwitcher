@@ -1,3 +1,11 @@
+/*google content width
+center-abs-margin calc(25vw + -188.75px)
+center-width 652
+rhs-margin 76px
+rhs-width 372px
+lhs-refinements-width 0
+max-width: calc(var(--center-abs-margin) + var(--center-width) + var(--rhs-margin) + var(--rhs-width) + var(--lhs-refinements-width));*/
+
 .SSwrapperContent {
     position: fixed;
     top: 30px;
@@ -5,7 +13,6 @@
     width: 100%;
     /* remove */
     z-index: 1000000;
-
 }
 
 .SSwrapperContainer {

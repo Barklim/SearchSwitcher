@@ -4,12 +4,14 @@ console.log('content script ran');
 
 const themeMode = 'minty'
 const themeLight = 'light'
+const DEBOUNCE_TIME = 300;
 const urlGoogle = "https://www.google.com/";
 const urlYandex = "https://www.google.com/";
 const urlDuckDuckGo = "https://www.google.com/";
 const urlBing = "https://www.google.com/";
 const urlYahoo = "https://www.google.com/";
 const sEngineUrls = [urlGoogle, urlYandex, urlDuckDuckGo, urlBing, urlYahoo]
+const searchInputId = 'SSsearch';
 
 // ----- Init -----
 
@@ -23,6 +25,8 @@ window.addEventListener('load', async () => {
     checkScriptAccessibility()
 
     initBootstrapJs()
+
+    initSearchListener()
 
     // getStorageItem('theme', function (interrupted) {
     //     if (theme) {}
@@ -52,6 +56,13 @@ function createInput() {
     navEl.classList.add('navbar');
     navEl.classList.add('navbar-expand-lg');
     navEl.classList.add('bg-body-tertiary');
+    // navEl.classList.add('bg-primary');
+    // navEl.classList.add('bg-dark');
+    // This don't work for all elements normally. Must change all themes handily
+    // navEl.setAttribute('data-bs-theme', 'dark');
+    // like this
+    // buttonEl.classList.add('btn-dark');
+    // navLinkEl.classList.add('text-light');
     containerEl.appendChild(navEl);
 
     // <div class="container-fluid">
@@ -162,6 +173,7 @@ function createInput() {
 
     // <input className="form-control me-sm-2" type="search" placeholder="Search">
     const inputEl = document.createElement('input');
+    inputEl.id = searchInputId;
     inputEl.classList.add('form-control');
     inputEl.classList.add('me-sm-2');
     inputEl.setAttribute('type', 'search');
@@ -222,4 +234,26 @@ function initBootstrapJs() {
             dropdownMenu.classList.toggle('show');
         });
     });
+}
+
+function debounce(func, delay) {
+    let timeout;
+    return function () {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), delay);
+    };
+}
+
+function initSearchListener() {
+    const inputElement = document.getElementById(searchInputId);
+    handleInput();
+    inputElement.addEventListener('input', debounce(handleInput, DEBOUNCE_TIME));
+}
+
+function handleInput() {
+    const inputElement = document.getElementById(searchInputId);
+    const inputValue = inputElement.value;
+    console.log(`You typed: ${inputValue}`)
 }
