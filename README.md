@@ -4,7 +4,8 @@ This extension allow you to use your lovely search engines everywhere.
 
 Developer [notes](https://github.com/Barklim/SearchSwitcher/README.notes.md)
 
-<img src="https://github.com/Barklim/SearchSwitcher/img/pic1.png">
+<img src="img/pic1.png">
+
 
 ## Setting up
 
