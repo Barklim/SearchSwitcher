@@ -9,10 +9,8 @@ max-width: calc(var(--center-abs-margin) + var(--center-width) + var(--rhs-margi
 .SSwrapperContent {
     position: fixed;
     top: 30px;
-    height: 100%;
     width: 100%;
-    /* remove */
-    z-index: 1000000;
+    z-index: 100000000000000000 !IMPORTANT;
 }
 
 .SSwrapperContainer {
@@ -21,11 +19,11 @@ max-width: calc(var(--center-abs-margin) + var(--center-width) + var(--rhs-margi
 }
 
 .SScontainer {
-    z-index: 1000000;
-    /*background-color: #00a379;*/
+    /* TODO: remove */
     border: 1px solid rgba(255, 0, 0, .3);
     width: 90%;
     min-width: 400px;
+    max-width: 1450px;
 }
 
 .SSbrandLogo {}
