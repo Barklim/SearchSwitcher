@@ -5,28 +5,63 @@ console.log('content script ran');
 const themeMode = 'minty'
 const themeLight = 'light'
 const DEBOUNCE_TIME = 300;
+const searchInputId = 'SSsearch';
+const sourceCssLinks = ["css/darkly-bootswatch.css", "css/searchInput.css"];
+// TODO: remove unused scripts
+const sourceJsLinks = ["js/lib/jquery-3.5.1.min.js", "js/lib/bootstrap.4.5.3.min.js", "js/lib/popper.1.16.0.min.js", "js/lib/utils.js"];
+
 const urlGoogle = "https://www.google.com/";
 const urlYandex = "https://www.google.com/";
 const urlDuckDuckGo = "https://www.google.com/";
 const urlBing = "https://www.google.com/";
 const urlYahoo = "https://www.google.com/";
-const sEngineUrls = [urlGoogle, urlYandex, urlDuckDuckGo, urlBing, urlYahoo]
-const searchInputId = 'SSsearch';
+const sEngineUrls = [urlGoogle, urlYandex, urlDuckDuckGo, urlBing, urlYahoo];
 
 // ----- Init -----
 
+const body = document.getElementsByTagName('body')[0];
+const shadowHost = document.createElement('div');
+body.appendChild(shadowHost);
+const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+
 window.addEventListener('load', async () => {
-    // TODO, get document input instead timeout
-    // get theme
-    console.log('!!! DOMContentLoaded');
+    // TODO get theme
+    console.log('Content.js Loaded');
 
-    createInput()
+    const scriptCssPromises = sourceCssLinks.map(sourceLink => fetchScript(sourceLink));
+    const scriptJsPromises = sourceJsLinks.map(sourceLink => fetchScript(sourceLink));
 
-    checkScriptAccessibility()
+    let arrCssContentText = [];
+    let arrJsContentText = [];
 
-    initBootstrapJs()
+    const cssPromise = Promise.all(scriptCssPromises);
+    const jsPromise = Promise.all(scriptJsPromises);
 
-    initSearchListener()
+    Promise.all([cssPromise, jsPromise])
+        .then(([cssScriptTexts, jsScriptTexts]) => {
+            // Выполняется, когда оба массива успешно загружены
+            console.log("All CSS Scripts successfully loaded:");
+            cssScriptTexts.forEach((scriptText, index) => {
+                console.log(`Скрипт ${sourceCssLinks[index]}:\n`);
+                arrCssContentText.push(scriptText);
+            });
+
+            console.log("All JS Scripts successfully loaded:");
+            jsScriptTexts.forEach((scriptText, index) => {
+                console.log(`Скрипт ${sourceJsLinks[index]}:\n`);
+                arrJsContentText.push(scriptText);
+            });
+
+            createInput(arrCssContentText, arrJsContentText);
+
+            initBootstrapJs()
+
+            initSearchListener()
+
+        })
+        .catch(error => {
+            console.error("Error load scripts:", error);
+        });
 
     // getStorageItem('theme', function (interrupted) {
     //     if (theme) {}
@@ -35,12 +70,24 @@ window.addEventListener('load', async () => {
 
 // ----- Create html -----
 
-function createInput() {
-    const body = document.getElementsByTagName('body')[0];
-
+function createInput(arrCss, arrJs) {
     const wrapperEl = document.createElement('div');
     wrapperEl.classList.add('SSwrapperContent');
-    body.appendChild(wrapperEl);
+    shadowRoot.appendChild(wrapperEl);
+
+    // --- Add Styles & Scripts to Shadow Dom ---
+    arrCss.forEach((css) => {
+        const style = document.createElement('style');
+        style.textContent = css;
+        shadowRoot.appendChild(style);
+    })
+
+    // TODO: remove: Js not loaded, because inline script not secure.
+    // sourceJsLinks.forEach((js) => {
+    //     const script = document.createElement('script');
+    //     script.src = chrome.runtime.getURL(js)
+    //     shadowRoot.appendChild(script);
+    // })
 
     const wrapperContainerEl = document.createElement('div');
     wrapperContainerEl.classList.add('SSwrapperContainer');
@@ -72,10 +119,17 @@ function createInput() {
 
     // <a class="navbar-brand" href="#">Navbar</a>
     const aLogoEl = document.createElement('a');
-    aLogoEl.classList.add('navbar-brand');
+    aLogoEl.classList.add('SSbrandLogo');
+    aLogoEl.classList.add('me-sm-2');
     aLogoEl.href = '#';
-    aLogoEl.innerHTML = '🇸witcher';
+    aLogoEl.innerHTML = '⚡';
     containerFluidEl.appendChild(aLogoEl);
+
+    const aLogoEl2 = document.createElement('a');
+    aLogoEl2.classList.add('navbar-brand');
+    aLogoEl2.href = '#';
+    aLogoEl2.innerHTML = 'witcher';
+    containerFluidEl.appendChild(aLogoEl2);
 
     // <button class="navbar-toggler" type="button"
     //      data-bs-toggle="collapse"
@@ -219,14 +273,14 @@ function checkScriptAccessibility() {
 }
 
 function initBootstrapJs() {
-    const burgerButton = document.querySelector('.navbar-toggler');
-    const navBarCollapse = document.querySelector('.navbar-collapse');
+    const burgerButton = shadowRoot.querySelector('.navbar-toggler');
+    const navBarCollapse = shadowRoot.querySelector('.navbar-collapse');
 
     burgerButton.addEventListener('click', () => {
         navBarCollapse.classList.toggle('show');
     });
 
-    const dropdownToggle = document.querySelectorAll('.dropdown-toggle');
+    const dropdownToggle = shadowRoot.querySelectorAll('.dropdown-toggle');
 
     dropdownToggle.forEach((toggle) => {
         toggle.addEventListener('click', (e) => {
@@ -247,13 +301,32 @@ function debounce(func, delay) {
 }
 
 function initSearchListener() {
-    const inputElement = document.getElementById(searchInputId);
+    const inputElement = shadowRoot.getElementById(searchInputId);
     handleInput();
     inputElement.addEventListener('input', debounce(handleInput, DEBOUNCE_TIME));
 }
 
 function handleInput() {
-    const inputElement = document.getElementById(searchInputId);
+    const inputElement = shadowRoot.getElementById(searchInputId);
     const inputValue = inputElement.value;
     console.log(`You typed: ${inputValue}`)
+}
+
+function fetchScript(path) {
+    return new Promise((resolve, reject) => {
+        fetch(chrome.runtime.getURL(path))
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    reject(new Error(`Error: fetchScript loading ${path}`));
+                }
+            })
+            .then(jsText => {
+                resolve(jsText); // Возвращаем исходный текст JS файла
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
 }

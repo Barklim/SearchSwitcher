@@ -27,11 +27,13 @@
 	],
 	"web_accessible_resources": [{
  		"resources": [
-			"js/lib/jquery.min.3.5.1.js",
+			"js/lib/jquery-3.5.1.min.js",
 			"js/lib/bootstrap.4.5.3.min.js",
 			"js/lib/popper.1.16.0.min.js",
 			"js/lib/jwt-decode.min.js",
-			"js/lib/utils.js"
+			"js/lib/utils.js",
+			"css/darkly-bootswatch.css",
+			"css/searchInput.css"
 		],
  		"matches": ["<all_urls>"],
  		"extension_ids": []
@@ -43,10 +45,6 @@
 	"action": {
 		"default_popup": "views/popup.html"
 	},
-	"host_permissions": [
-		"http://*/*",
-		"https://*/*"
-	],
 	"permissions": [
 		"storage",
 		"webRequest",

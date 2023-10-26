@@ -5,6 +5,22 @@ console.log('background script ran');
 let dev = true;
 let domain = dev ? "http://localhost:3000/" : 'https://someBackend.com/';
 
+// ----- Init -----
+
+// If you forward messages with the text css to each tab,
+// then you will also need to forward it to new opening tabs using the onCreated method
+// sendMessage(?) or use (chrome.scripting.executeScript && chrome.scripting.registerContentScripts)
+// script.onload dont give text of script.
+// can realize loader.js put text of scripts in some variables in window
+//
+// no success when take all computed styles from dom
+// document.querySelectorAll('style') document.styleSheets
+// fetch(chrome.runtime.getURL('../../css/darkly-bootswatch.css'))
+//     .then(response => response.text())
+//     .then(css => {
+//     })
+//     .catch(error => console.error(error));
+
 // ----- Utils -----
 
 const firstBackgroundCall = function () {
