@@ -21,6 +21,24 @@
 - content util getCurrentTab. (Solve: pass the id off tab in a listener)
 - check web_accessible_resources in manifest.
 
+## Notes
+
+If you forward messages with the text css to each tab,
+then you will also need to forward it to new opening tabs using the onCreated method
+sendMessage(?) or use (chrome.scripting.executeScript && chrome.scripting.registerContentScripts)
+script.onload dont give text of script.
+can realize loader.js put text of scripts in some variables in window
+
+no success when take all computed styles from dom
+document.querySelectorAll('style') document.styleSheets
+```
+fetch(chrome.runtime.getURL('../../css/darkly-bootswatch.css'))
+.then(response => response.text())
+.then(css => {
+})
+.catch(error => console.error(error));
+```
+
 ## Useful Links
 
 - [Angular scope](https://code.angularjs.org/1.2.27/docs/guide/scope)

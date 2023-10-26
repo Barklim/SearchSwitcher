@@ -7,8 +7,6 @@ const themeLight = 'light'
 const DEBOUNCE_TIME = 300;
 const searchInputId = 'SSsearch';
 const sourceCssLinks = ["css/darkly-bootswatch.css", "css/searchInput.css"];
-// TODO: remove unused scripts
-const sourceJsLinks = ["js/lib/jquery-3.5.1.min.js", "js/lib/bootstrap.4.5.3.min.js", "js/lib/popper.1.16.0.min.js", "js/lib/utils.js"];
 
 const urlGoogle = "https://www.google.com/";
 const urlYandex = "https://www.google.com/";
@@ -29,30 +27,18 @@ window.addEventListener('load', async () => {
     console.log('Content.js Loaded');
 
     const scriptCssPromises = sourceCssLinks.map(sourceLink => fetchScript(sourceLink));
-    const scriptJsPromises = sourceJsLinks.map(sourceLink => fetchScript(sourceLink));
-
     let arrCssContentText = [];
-    let arrJsContentText = [];
-
     const cssPromise = Promise.all(scriptCssPromises);
-    const jsPromise = Promise.all(scriptJsPromises);
 
-    Promise.all([cssPromise, jsPromise])
-        .then(([cssScriptTexts, jsScriptTexts]) => {
-            // Выполняется, когда оба массива успешно загружены
+    Promise.all([cssPromise])
+        .then(([cssScriptTexts]) => {
             console.log("All CSS Scripts successfully loaded:");
             cssScriptTexts.forEach((scriptText, index) => {
-                console.log(`Скрипт ${sourceCssLinks[index]}:\n`);
+                console.log(`Script ${sourceCssLinks[index]}:\n`);
                 arrCssContentText.push(scriptText);
             });
 
-            console.log("All JS Scripts successfully loaded:");
-            jsScriptTexts.forEach((scriptText, index) => {
-                console.log(`Скрипт ${sourceJsLinks[index]}:\n`);
-                arrJsContentText.push(scriptText);
-            });
-
-            createInput(arrCssContentText, arrJsContentText);
+            createInput(arrCssContentText);
 
             initBootstrapJs()
 
@@ -70,7 +56,7 @@ window.addEventListener('load', async () => {
 
 // ----- Create html -----
 
-function createInput(arrCss, arrJs) {
+function createInput(arrCss) {
     const wrapperEl = document.createElement('div');
     wrapperEl.classList.add('SSwrapperContent');
     shadowRoot.appendChild(wrapperEl);
@@ -81,13 +67,6 @@ function createInput(arrCss, arrJs) {
         style.textContent = css;
         shadowRoot.appendChild(style);
     })
-
-    // TODO: remove: Js not loaded, because inline script not secure.
-    // sourceJsLinks.forEach((js) => {
-    //     const script = document.createElement('script');
-    //     script.src = chrome.runtime.getURL(js)
-    //     shadowRoot.appendChild(script);
-    // })
 
     const wrapperContainerEl = document.createElement('div');
     wrapperContainerEl.classList.add('SSwrapperContainer');
