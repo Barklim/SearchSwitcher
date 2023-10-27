@@ -7,14 +7,14 @@
 - when redirected hide search component
 - add hotKeys crib, open search input when use hot keys combo (f9). Escape for close
 - [draggable](https://interactjs.io/)
-- change theme
 - add button exit right side for close search component
-- backend for auth and subscribe services (get more search engine) 
-- detect browser theme
+- backend for auth and subscribe services (get more search engine)
 - linter, prettier.
 - i18n.
 - create env file.
 - theming.
+- change theme
+- detect browser theme
 - yandex metrics.
 - sass, less?
 - mobile layouting have sense?

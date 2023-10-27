@@ -10,6 +10,7 @@ const themeMode = 'minty'
 const themeLight = 'light'
 const searchInputId = 'SSsearch';
 const sourceCssLinks = ["css/darkly-bootswatch.css", "css/searchInput.css"];
+let activeItemIndex = -1;
 
 let sswitcherState = 'close';
 let searchEngineState = 'google';
@@ -266,6 +267,7 @@ function createInput(arrCss) {
     inputEl.classList.add('me-sm-2');
     inputEl.setAttribute('type', 'search');
     inputEl.setAttribute('placeholder', 'Search..');
+    inputEl.setAttribute('autocomplete', 'off');
     formEl.appendChild(inputEl);
 
     const buttonEl = document.createElement('button');
@@ -470,6 +472,9 @@ function setList(data) {
 
         listGroup.appendChild(listItemEl);
     });
+
+    activeItemIndex = -1;
+    handleItemActivation();
 }
 
 function cleanList() {
@@ -524,10 +529,34 @@ function initDropDown() {
     })
 }
 
+function handleItemActivation() {
+    const items = shadowRoot.querySelectorAll('.list-group-item');
+
+    items.forEach((item, index) => {
+        if (index === activeItemIndex) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+}
+
 function initSearchListener() {
     const inputElement = shadowRoot.getElementById(searchInputId);
     handleInput();
     inputElement.addEventListener('input', debounce(handleInput, DEBOUNCE_TIME));
+
+    inputElement.addEventListener('keydown', (event) => {
+        const itemsTest = shadowRoot.querySelectorAll('.list-group-item');
+
+        if (event.key === 'ArrowDown' && activeItemIndex < itemsTest.length - 1) {
+            activeItemIndex++;
+            handleItemActivation();
+        } else if (event.key === 'ArrowUp' && activeItemIndex > 0) {
+            activeItemIndex--;
+            handleItemActivation();
+        }
+    });
 }
 
 function initSwitcherVisibility() {
