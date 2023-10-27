@@ -1,10 +1,11 @@
 ## TODO
 
-- add blocked search engines
+- setFocusTo input when open extension
 - delete bootsrap.css from dom.
 - show search results (data.searchInformationf)
 - add settings for show htmlSnippet & another
 - when redirected hide search component
+- add hotKeys crib, open search input when use hot keys combo (f9). Escape for close
 - [draggable](https://interactjs.io/)
 - change theme
 - add button exit right side for close search component
@@ -30,6 +31,7 @@
 - ✅ click icon extension close or open search component in any tabs.
 - ✅ search debounce.
 - ✅ when switching to different tabs, the correct search engine should open.
+- ✅ add blocked search engines
 
 ## Issues
 

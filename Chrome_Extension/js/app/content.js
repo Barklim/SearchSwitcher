@@ -18,6 +18,10 @@ const searchEngineKey = 'searchEngine';
 
 const googleLogo = 'https://github.com/Barklim/course/blob/main/hostImg/sswitcher/google.png?raw=true';
 const yandexLogo = 'https://github.com/Barklim/course/blob/main/hostImg/sswitcher/yandex.png?raw=true';
+const duckLogo = 'https://github.com/Barklim/course/blob/main/hostImg/sswitcher/duck.png?raw=true';
+const bingLogo = 'https://github.com/Barklim/course/blob/main/hostImg/sswitcher/bingo.png?raw=true';
+const baiduLogo = 'https://github.com/Barklim/course/blob/main/hostImg/sswitcher/baidu.png?raw=true';
+const yahooLogo = 'https://github.com/Barklim/course/blob/main/hostImg/sswitcher/yahoo.png?raw=true';
 const urlGoogle = "https://www.google.com/";
 const urlYandex = "https://www.google.com/";
 const urlDuckDuckGo = "https://www.google.com/";
@@ -77,9 +81,8 @@ function createInput(arrCss) {
     containerEl.classList.add('SScontainer');
     wrapperContainerEl.appendChild(containerEl);
 
-    // <nav class="navbar navbar-expand-lg bg-body-tertiary">
     const navEl = document.createElement('nav');
-    navEl.id = 'nav'; // id
+    navEl.id = 'nav';
     navEl.classList.add('navbar');
     navEl.classList.add('navbar-expand-lg');
     navEl.classList.add('bg-body-tertiary');
@@ -92,12 +95,10 @@ function createInput(arrCss) {
     // navLinkEl.classList.add('text-light');
     containerEl.appendChild(navEl);
 
-    // <div class="container-fluid">
     const containerFluidEl = document.createElement('div');
     containerFluidEl.classList.add('container-fluid');
     navEl.appendChild(containerFluidEl);
 
-    // <a class="navbar-brand" href="#">Navbar</a>
     const aLogoEl = document.createElement('a');
     aLogoEl.classList.add('SSbrandLogo');
     aLogoEl.classList.add('me-sm-2');
@@ -111,13 +112,6 @@ function createInput(arrCss) {
     aLogoEl2.innerHTML = 'witcher';
     containerFluidEl.appendChild(aLogoEl2);
 
-    // <button class="navbar-toggler" type="button"
-    //      data-bs-toggle="collapse"
-    //      data-bs-target="#navbarColor04"
-    //      aria-controls="navbarColor04"
-    //      aria-expanded="false"
-    //      aria-label="Toggle navigation">
-    //   <span class="navbar-toggler-icon"></span> </button>
     const buttonLogoEl = document.createElement('button');
     buttonLogoEl.classList.add('navbar-toggler');
     buttonLogoEl.type = 'button';
@@ -132,30 +126,22 @@ function createInput(arrCss) {
     spanLogoEl.classList.add('navbar-toggler-icon');
     buttonLogoEl.appendChild(spanLogoEl);
 
-    // <div className="collapse navbar-collapse" id="navbarColor04">
     const navBarCollapseEl = document.createElement('div');
     navBarCollapseEl.id = 'navbarColor04';
     navBarCollapseEl.classList.add('collapse');
     navBarCollapseEl.classList.add('navbar-collapse');
     containerFluidEl.appendChild(navBarCollapseEl);
 
-    // <ul class="navbar-nav me-auto">
     const ulNavBarEl = document.createElement('ul');
     ulNavBarEl.classList.add('navbar-nav');
     ulNavBarEl.classList.add('me-auto');
     navBarCollapseEl.appendChild(ulNavBarEl);
 
-    // <li class="nav-item dropdown">
     const liDropDownEl = document.createElement('li');
     liDropDownEl.classList.add('nav-item');
     liDropDownEl.classList.add('dropdown');
     ulNavBarEl.appendChild(liDropDownEl);
 
-    // <a class="nav-link dropdown-toggle"
-    //      data-bs-toggle="dropdown"
-    //      href="#" role="button"
-    //      aria-haspopup="true"
-    //      aria-expanded="false">Dropdown</a>
     const navLinkEl = document.createElement('a');
     navLinkEl.id = 'dropdown';
     navLinkEl.classList.add('nav-link');
@@ -172,12 +158,11 @@ function createInput(arrCss) {
     img.classList.add('imgLogoEngine');
     navLinkEl.appendChild(img)
 
-    // <div class="dropdown-menu">
     const dropDownEl = document.createElement('div');
     dropDownEl.classList.add('dropdown-menu');
     liDropDownEl.appendChild(dropDownEl);
 
-    // <a class="dropdown-item" href="#">Action</a>
+
     const dropDownItemGoogleEl = document.createElement('a');
     dropDownItemGoogleEl.id = 'googleListItem';
     dropDownItemGoogleEl.classList.add('dropdown-item');
@@ -202,7 +187,63 @@ function createInput(arrCss) {
     imgYandex.classList.add('imgLogoEngine_listItem');
     dropDownItemYandexEl.prepend(imgYandex)
 
-    // <div class="dropdown-divider"></div>
+    const dropDownItemBingEl = document.createElement('a');
+    dropDownItemBingEl.id = 'yandexListItem';
+    dropDownItemBingEl.classList.add('dropdown-item');
+    dropDownItemBingEl.innerHTML = 'Bing';
+    dropDownItemBingEl.classList.add('disabled');
+    dropDownEl.appendChild(dropDownItemBingEl);
+
+    const imgBing = document.createElement('img');
+    imgBing.src = bingLogo;
+    imgBing.classList.add('imgLogoEngine');
+    imgBing.classList.add('imgLogoEngine_listItem');
+    imgBing.classList.add('imgLogoEngine_disabled');
+    dropDownItemBingEl.prepend(imgBing)
+
+    const dropDownItemDuckEl = document.createElement('a');
+    dropDownItemDuckEl.id = 'yandexListItem';
+    dropDownItemDuckEl.classList.add('dropdown-item');
+    dropDownItemDuckEl.innerHTML = 'DuckDuckGo';
+    dropDownItemDuckEl.classList.add('disabled');
+    dropDownEl.appendChild(dropDownItemDuckEl);
+
+    const imgDuck = document.createElement('img');
+    imgDuck.src = duckLogo;
+    imgDuck.classList.add('imgLogoEngine');
+    imgDuck.classList.add('imgLogoEngine_listItem');
+    imgDuck.classList.add('imgLogoEngine_disabled');
+    dropDownItemDuckEl.prepend(imgDuck)
+
+    const dropDownItemBaiduEl = document.createElement('a');
+    dropDownItemBaiduEl.id = 'yandexListItem';
+    dropDownItemBaiduEl.classList.add('dropdown-item');
+    dropDownItemBaiduEl.innerHTML = 'Baidu';
+    dropDownItemBaiduEl.classList.add('disabled');
+    dropDownEl.appendChild(dropDownItemBaiduEl);
+
+    const imgBaidu = document.createElement('img');
+    imgBaidu.src = baiduLogo;
+    imgBaidu.classList.add('imgLogoEngine');
+    imgBaidu.classList.add('imgLogoEngine_listItem');
+    imgBaidu.classList.add('imgLogoEngine_disabled');
+    dropDownItemBaiduEl.prepend(imgBaidu)
+
+    const dropDownItemYahooEl = document.createElement('a');
+    dropDownItemYahooEl.id = 'yandexListItem';
+    dropDownItemYahooEl.classList.add('dropdown-item');
+    dropDownItemYahooEl.innerHTML = 'Yahoo';
+    dropDownItemYahooEl.classList.add('disabled');
+    dropDownEl.appendChild(dropDownItemYahooEl);
+
+    const imgYahoo = document.createElement('img');
+    imgYahoo.src = yahooLogo;
+    imgYahoo.classList.add('imgLogoEngine');
+    imgYahoo.classList.add('imgLogoEngine_listItem');
+    imgYahoo.classList.add('imgLogoEngine_disabled');
+    dropDownItemYahooEl.prepend(imgYahoo)
+
+
     const dividerEl = document.createElement('div');
     dividerEl.classList.add('dropdown-divider');
     dropDownEl.appendChild(dividerEl);
@@ -214,13 +255,11 @@ function createInput(arrCss) {
     dropDownItemSubscribeEl.innerHTML = 'Subscribe 👑';
     dropDownEl.appendChild(dropDownItemSubscribeEl);
 
-    // <form class="d-flex">
     const formEl = document.createElement('form');
     formEl.classList.add('d-flex');
     formEl.classList.add('w-100');
     navBarCollapseEl.appendChild(formEl);
 
-    // <input className="form-control me-sm-2" type="search" placeholder="Search">
     const inputEl = document.createElement('input');
     inputEl.id = searchInputId;
     inputEl.classList.add('form-control');
@@ -229,7 +268,6 @@ function createInput(arrCss) {
     inputEl.setAttribute('placeholder', 'Search..');
     formEl.appendChild(inputEl);
 
-    // <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
     const buttonEl = document.createElement('button');
     buttonEl.classList.add('btn');
     buttonEl.classList.add('btn-secondary');

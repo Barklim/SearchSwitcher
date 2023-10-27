@@ -47,3 +47,7 @@ max-width: calc(var(--center-abs-margin) + var(--center-width) + var(--rhs-margi
     bottom: 2px;
     margin-right: 10px;
 }
+
+.imgLogoEngine_disabled {
+    opacity: 0.4;
+}
