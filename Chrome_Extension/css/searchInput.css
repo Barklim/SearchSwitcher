@@ -21,7 +21,7 @@ max-width: calc(var(--center-abs-margin) + var(--center-width) + var(--rhs-margi
 .SScontainer {
     /* TODO: remove */
     border: 1px solid rgba(255, 0, 0, .2);
-    width: 40%;
+    width: 80%;
     min-width: 400px;
     max-width: 1450px;
 }

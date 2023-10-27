@@ -2,6 +2,9 @@
 
 - when enter button by list in search, open in iframe result or redirect
 - add blocked search engines
+- delete bootsrap.css from dom.
+- show search results (data.searchInformation)
+- add settings for show htmlSnippet & another
 - [draggable](https://interactjs.io/)
 - change theme
 - add button exit right side for close search component
@@ -54,6 +57,11 @@ fetch(chrome.runtime.getURL('../../css/darkly-bootswatch.css'))
 
 ## Useful Links
 
+- [Google Console](https://console.cloud.google.com/apis/credentials/key/b99fb10b-8116-45c8-ab8b-775f3aa12b8f?authuser=0&project=sswitcher)
+    - [Custom Search](https://developers.google.com/custom-search/v1/reference/rest/v1/cse/list?apix=true&hl=ru)
+    - Custom search [docs](https://developers.google.com/custom-search/v1/reference/rest/v1/cse/list?hl=ru&apix_params=%7B%22q%22%3A%22woody%22%7D)
+    - Custom search docs useing [rest](https://developers.google.com/custom-search/v1/using_rest?hl=ru)
+    - Search [engine](https://programmablesearchengine.google.com/controlpanel/create/congrats?cx=e79bb8ff5338048ae)
 - [Angular scope](https://code.angularjs.org/1.2.27/docs/guide/scope)
 - [bootswatch](https://bootswatch.com/)
 - example of chrome [extension](https://github.com/Barklim/onlyfExtension/tree/main/Chrome_Extension/js/app) (private)

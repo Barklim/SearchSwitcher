@@ -2,9 +2,11 @@
 
 // ----- Config -----
 
+const apiKey = 'AIzaSyBK_MJBnjnEHzV2McNber7SD75ixFGEtd0';
+const customSearchEngineId = 'e79bb8ff5338048ae';
 const themeMode = 'minty'
 const themeLight = 'light'
-const DEBOUNCE_TIME = 300;
+const DEBOUNCE_TIME = 800;
 const searchInputId = 'SSsearch';
 const sourceCssLinks = ["css/darkly-bootswatch.css", "css/searchInput.css"];
 
@@ -236,6 +238,47 @@ function createInput(arrCss) {
     formEl.appendChild(buttonEl);
 }
 
+// ----- Fetch -----
+
+function prepareDate(data) {
+    const preparedDate = [];
+
+    data.items.forEach((item) => {
+        preparedDate.push({
+            title: item.title,
+            htmlTitle: item.htmlTitle,
+            formattedUrl: item.formattedUrl,
+        })
+    })
+
+    return preparedDate;
+}
+
+function sendGoogleSearchQuery(query) {
+    const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${customSearchEngineId}&q=${encodeURIComponent(query)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data.searchInformation);
+            const preparedData = prepareDate(data);
+            // [
+            //     {
+            //         formattedUrl: "https://www.woodyguthrie.org/"
+            //         htmlTitle: "The Official <b>Woody</b> Guthrie Website"
+            //         title: "The Official Woody Guthrie Website"
+            //     }
+            // ]
+            console.log('PreparedData for list');
+            console.log(preparedData);
+            console.log('');
+
+        })
+        .catch(error => {
+            console.error('Ошибка при выполнении поискового запроса:', error);
+        });
+}
+
 // ----- Utils -----
 
 function checkScriptAccessibility() {
@@ -271,6 +314,7 @@ function debounce(func, delay) {
 function handleInput() {
     const inputElement = shadowRoot.getElementById(searchInputId);
     const inputValue = inputElement.value;
+    inputElement.value ? sendGoogleSearchQuery(inputValue) : null
     console.log(`You typed: ${inputValue}`)
 }
 
