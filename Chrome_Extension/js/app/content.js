@@ -2,11 +2,12 @@
 
 // ----- Config -----
 
+const isDev = false;
 const apiKey = 'AIzaSyBK_MJBnjnEHzV2McNber7SD75ixFGEtd0';
 const customSearchEngineId = 'e79bb8ff5338048ae';
+const DEBOUNCE_TIME = 800;
 const themeMode = 'minty'
 const themeLight = 'light'
-const DEBOUNCE_TIME = 800;
 const searchInputId = 'SSsearch';
 const sourceCssLinks = ["css/darkly-bootswatch.css", "css/searchInput.css"];
 
@@ -72,6 +73,7 @@ function createInput(arrCss) {
     wrapperEl.appendChild(wrapperContainerEl);
 
     const containerEl = document.createElement('div');
+    containerEl.id = 'SScontainer'
     containerEl.classList.add('SScontainer');
     wrapperContainerEl.appendChild(containerEl);
 
@@ -248,6 +250,7 @@ function prepareDate(data) {
             title: item.title,
             htmlTitle: item.htmlTitle,
             formattedUrl: item.formattedUrl,
+            link: item.link,
         })
     })
 
@@ -257,26 +260,24 @@ function prepareDate(data) {
 function sendGoogleSearchQuery(query) {
     const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${customSearchEngineId}&q=${encodeURIComponent(query)}`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // console.log(data.searchInformation);
-            const preparedData = prepareDate(data);
-            // [
-            //     {
-            //         formattedUrl: "https://www.woodyguthrie.org/"
-            //         htmlTitle: "The Official <b>Woody</b> Guthrie Website"
-            //         title: "The Official Woody Guthrie Website"
-            //     }
-            // ]
-            console.log('PreparedData for list');
-            console.log(preparedData);
-            console.log('');
+    if (isDev) {
+        const preparedData = prepareDate(mock);
+        setList(preparedData)
+    } else {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const preparedData = prepareDate(data);
+                console.log('PreparedData for list');
+                console.log(preparedData);
+                console.log('');
+                setList(preparedData)
 
-        })
-        .catch(error => {
-            console.error('Ошибка при выполнении поискового запроса:', error);
-        });
+            })
+            .catch(error => {
+                console.error('Error google search request:', error);
+            });
+    }
 }
 
 // ----- Utils -----
@@ -314,7 +315,7 @@ function debounce(func, delay) {
 function handleInput() {
     const inputElement = shadowRoot.getElementById(searchInputId);
     const inputValue = inputElement.value;
-    inputElement.value ? sendGoogleSearchQuery(inputValue) : null
+    inputElement.value ? sendGoogleSearchQuery(inputValue) : cleanList();
     console.log(`You typed: ${inputValue}`)
 }
 
@@ -401,6 +402,45 @@ function setImgEngine(dropdown, searchEngine) {
     dropdown.appendChild(img)
 }
 
+function setList(data) {
+    const nav = shadowRoot.querySelector('#SScontainer')
+    let listGroup = shadowRoot.querySelector('#list-group')
+
+    if (listGroup) {
+        listGroup.innerHTML = '';
+    } else {
+        listGroup = document.createElement('div');
+        listGroup.id = 'list-group';
+        listGroup.classList.add('list-group');
+        nav.appendChild(listGroup);
+    }
+
+    data.forEach((item) => {
+        const listItemEl = document.createElement('a');
+        listItemEl.href = `https://www.google.com/search?q=${item.title}`;
+        listItemEl.classList.add('list-group-item');
+        listItemEl.classList.add('list-group-item-action');
+        listItemEl.innerHTML = item.htmlTitle;
+
+        listItemEl.addEventListener('mouseenter', () => {
+            listItemEl.classList.add('active');
+        });
+
+        listItemEl.addEventListener('mouseleave', () => {
+            listItemEl.classList.remove('active');
+        });
+
+        listGroup.appendChild(listItemEl);
+    });
+}
+
+function cleanList() {
+    let listGroup = shadowRoot.querySelector('#list-group')
+    if (listGroup) {
+        listGroup.innerHTML = '';
+    }
+}
+
 // ----- Listeners -----
 
 function initListeners() {
@@ -432,7 +472,6 @@ function initToggle() {
 function initDropDown() {
     const google = shadowRoot.querySelector('#googleListItem');
     const yandex = shadowRoot.querySelector('#yandexListItem');
-    const dropdown = shadowRoot.querySelector('#dropdown');
 
     google.addEventListener('click', () => {
         setStorageItem(searchEngineKey, 'google');
@@ -477,3 +516,63 @@ function initSearchEngine() {
 
     chrome.storage.onChanged.addListener(storageChangeHandler);
 }
+
+const mock =
+    {
+        "searchInformation": {
+            "totalResults": "778000000",
+            "formattedTotalResults": "778,000,000"
+        },
+        "items": [
+            {
+                "title": "The Official Woody Guthrie Website",
+                "htmlTitle": "The Official <b>Woody</b> Guthrie Website",
+                "link": "https://www.woodyguthrie.org/",
+            },
+            {
+                "title": "WOODY'S PHILADELPHIA : PHILLY'S LANDMARK LGBTQ ...",
+                "htmlTitle": "<b>WOODY&#39;S</b> PHILADELPHIA : PHILLY&#39;S LANDMARK LGBTQ ...",
+                "link": "https://woodysbar.com/",
+            },
+            {
+                "title": "Woody Guthrie Center - Tulsa, OK",
+                "htmlTitle": "<b>Woody</b> Guthrie Center - Tulsa, OK",
+                "link": "https://woodyguthriecenter.org/",
+            },
+            {
+                "title": "Woody's Sports Tavern & Grill",
+                "htmlTitle": "<b>Woody&#39;s</b> Sports Tavern &amp; Grill",
+                "link": "https://www.woodysportstavern.com/",
+            },
+            {
+                "title": "Woody Creek Distillers: WCD Home Page",
+                "htmlTitle": "<b>Woody</b> Creek Distillers: WCD Home Page",
+                "link": "https://woodycreekdistillers.com/",
+            },
+            {
+                "title": "Woody Allen - Wikipedia",
+                "htmlTitle": "<b>Woody</b> Allen - Wikipedia",
+                "link": "https://en.wikipedia.org/wiki/Woody_Allen",
+            },
+            {
+                "title": "Woody's Wood Fired Pizza",
+                "htmlTitle": "<b>Woody&#39;s</b> Wood Fired Pizza",
+                "link": "http://www.woodysgolden.com/",
+            },
+            {
+                "title": "Woody (@woodyonthemoon) • Instagram photos and videos",
+                "htmlTitle": "<b>Woody</b> (@woodyonthemoon) • Instagram photos and videos",
+                "link": "https://www.instagram.com/woodyonthemoon/?hl=en",
+            },
+            {
+                "title": "Woody (Toy Story) - Wikipedia",
+                "htmlTitle": "<b>Woody</b> (Toy Story) - Wikipedia",
+                "link": "https://en.wikipedia.org/wiki/Woody_(Toy_Story)",
+            },
+            {
+                "title": "Sheriff Woody | Characters | Toy Story",
+                "htmlTitle": "Sheriff <b>Woody</b> | Characters | Toy Story",
+                "link": "https://toystory.disney.com/sheriff-woody",
+            }
+        ]
+    }

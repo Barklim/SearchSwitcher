@@ -1,10 +1,10 @@
 ## TODO
 
-- when enter button by list in search, open in iframe result or redirect
 - add blocked search engines
 - delete bootsrap.css from dom.
-- show search results (data.searchInformation)
+- show search results (data.searchInformationf)
 - add settings for show htmlSnippet & another
+- when redirected hide search component
 - [draggable](https://interactjs.io/)
 - change theme
 - add button exit right side for close search component
@@ -34,6 +34,7 @@
 ## Issues
 
 - fix click search engine logo icon in dropdown is preventing of click
+- when enter button by list in search, open in iframe result or redirect?
 
 ------
 

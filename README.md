@@ -6,6 +6,10 @@ Developer [notes](https://github.com/Barklim/SearchSwitcher/README.notes.md)
 
 <img src="img/pic1.png">
 
+Change isDev variable to false for work with google api, when it true the data is mock.
+```
+const isDev = true;
+```
 
 ## Setting up
 
