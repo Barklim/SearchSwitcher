@@ -271,6 +271,7 @@ function createInput(arrCss) {
     formEl.appendChild(inputEl);
 
     const buttonEl = document.createElement('button');
+    buttonEl.id = 'searchButton'
     buttonEl.classList.add('btn');
     buttonEl.classList.add('btn-secondary');
     buttonEl.classList.add('my-2');
@@ -490,6 +491,7 @@ function initListeners() {
     initToggle()
     initDropDown()
     initSearchListener()
+    initSearchButton()
     initSwitcherVisibility()
     initSearchEngine()
 }
@@ -556,7 +558,30 @@ function initSearchListener() {
             activeItemIndex--;
             handleItemActivation();
         }
+
+        if (event.key === 'Enter') {
+            event.preventDefault();
+
+            const activeItem = shadowRoot.querySelector('.list-group-item.active');
+
+            if (activeItem) {
+                const href = activeItem.getAttribute('href');
+                if (href) {
+                    window.location.href = href;
+                }
+            }
+        }
     });
+}
+
+function initSearchButton() {
+    const inputElement = shadowRoot.getElementById(searchInputId);
+    const searchButtonElement = shadowRoot.getElementById('searchButton');
+
+    searchButtonElement.addEventListener('click', (event => {
+        event.preventDefault();
+        window.location.href = `https://www.google.com/search?q=${inputElement.value}`;;
+    }))
 }
 
 function initSwitcherVisibility() {

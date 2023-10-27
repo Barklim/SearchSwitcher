@@ -36,6 +36,7 @@
 ## Issues
 
 - fix click search engine logo icon in dropdown is preventing of click
+- fix case of redirect, when input is empty and user keydown enter button.
 - when enter button by list in search, open in iframe result or redirect?
 
 ------
