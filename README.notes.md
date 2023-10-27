@@ -21,12 +21,18 @@
 - content util getCurrentTab. (Solve: pass the id off tab in a listener)
 - check web_accessible_resources in manifest.
 
-------
+## Done
 
 - ✅ shadow dom search component for isolate styles.
 - ✅ click icon extension close or open search component in any tabs.
 - ✅ search debounce.
 - ✅ when switching to different tabs, the correct search engine should open.
+
+## Issues
+
+- fix click search engine logo icon in dropdown is preventing of click
+
+------
 
 ## Notes
 
