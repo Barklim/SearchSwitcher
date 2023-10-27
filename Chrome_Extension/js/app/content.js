@@ -13,6 +13,8 @@ let searchEngineState = 'google';
 const sswitcherKey = 'sswitcher';
 const searchEngineKey = 'searchEngine';
 
+const googleLogo = 'https://github.com/Barklim/course/blob/main/hostImg/sswitcher/google.png?raw=true';
+const yandexLogo = 'https://github.com/Barklim/course/blob/main/hostImg/sswitcher/yandex.png?raw=true';
 const urlGoogle = "https://www.google.com/";
 const urlYandex = "https://www.google.com/";
 const urlDuckDuckGo = "https://www.google.com/";
@@ -161,6 +163,11 @@ function createInput(arrCss) {
     navLinkEl.innerHTML = 'Google';
     liDropDownEl.appendChild(navLinkEl);
 
+    const img = document.createElement('img');
+    img.src = googleLogo;
+    img.classList.add('imgLogoEngine');
+    navLinkEl.appendChild(img)
+
     // <div class="dropdown-menu">
     const dropDownEl = document.createElement('div');
     dropDownEl.classList.add('dropdown-menu');
@@ -170,14 +177,26 @@ function createInput(arrCss) {
     const dropDownItemGoogleEl = document.createElement('a');
     dropDownItemGoogleEl.id = 'googleListItem';
     dropDownItemGoogleEl.classList.add('dropdown-item');
-    dropDownItemGoogleEl.innerHTML = 'G(icon) Google';
+    dropDownItemGoogleEl.innerHTML = 'Google';
     dropDownEl.appendChild(dropDownItemGoogleEl);
+
+    const imgGoogle = document.createElement('img');
+    imgGoogle.src = googleLogo;
+    imgGoogle.classList.add('imgLogoEngine');
+    imgGoogle.classList.add('imgLogoEngine_listItem');
+    dropDownItemGoogleEl.prepend(imgGoogle)
 
     const dropDownItemYandexEl = document.createElement('a');
     dropDownItemYandexEl.id = 'yandexListItem';
     dropDownItemYandexEl.classList.add('dropdown-item');
-    dropDownItemYandexEl.innerHTML = 'Y(icon) Yandex';
+    dropDownItemYandexEl.innerHTML = 'Yandex';
     dropDownEl.appendChild(dropDownItemYandexEl);
+
+    const imgYandex = document.createElement('img');
+    imgYandex.src = yandexLogo;
+    imgYandex.classList.add('imgLogoEngine');
+    imgYandex.classList.add('imgLogoEngine_listItem');
+    dropDownItemYandexEl.prepend(imgYandex)
 
     // <div class="dropdown-divider"></div>
     const dividerEl = document.createElement('div');
@@ -287,14 +306,16 @@ function changeSearchEngineState(seState) {
 
     switch(seState) {
         case 'google':
-            dropdown.innerHTML = 'google';
+            dropdown.innerHTML = 'Google';
             break;
         case 'yandex':
-            dropdown.innerHTML = 'yandex';
+            dropdown.innerHTML = 'Yandex';
             break;
         default:
-            dropdown.innerHTML = 'google';
+            dropdown.innerHTML = 'Google';
     }
+
+    setImgEngine(dropdown, seState);
 }
 
 function fetchScript(path) {
@@ -314,6 +335,26 @@ function fetchScript(path) {
                 reject(error);
             });
     });
+}
+
+// ----- Dom manipulate -----
+
+function setImgEngine(dropdown, searchEngine) {
+    const img = document.createElement('img');
+
+    switch(searchEngine) {
+        case 'google':
+            img.src = googleLogo;
+            break;
+        case 'yandex':
+            img.src = yandexLogo;
+            break;
+        default:
+            img.src = googleLogo;
+    }
+
+    img.classList.add('imgLogoEngine');
+    dropdown.appendChild(img)
 }
 
 // ----- Listeners -----
@@ -358,16 +399,7 @@ function initDropDown() {
     });
 
     utils.getStorageItem(searchEngineKey, (seState) => {
-        switch(seState) {
-            case 'google':
-                dropdown.innerHTML = 'google2';
-                break;
-            case 'yandex':
-                dropdown.innerHTML = 'yandex2';
-                break;
-            default:
-                dropdown.innerHTML = 'google3';
-        }
+        changeSearchEngineState(seState)
     })
 }
 

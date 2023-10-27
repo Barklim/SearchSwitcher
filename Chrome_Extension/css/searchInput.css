@@ -20,7 +20,7 @@ max-width: calc(var(--center-abs-margin) + var(--center-width) + var(--rhs-margi
 
 .SScontainer {
     /* TODO: remove */
-    border: 1px solid rgba(255, 0, 0, .3);
+    border: 1px solid rgba(255, 0, 0, .2);
     width: 40%;
     min-width: 400px;
     max-width: 1450px;
@@ -30,4 +30,20 @@ max-width: calc(var(--center-abs-margin) + var(--center-width) + var(--rhs-margi
 
 .displayNone {
     display: none !Important;
+}
+
+.imgLogoEngine {
+    height: 24px;
+    width: 24px;
+    margin-left: 2px;
+    border-radius: 24px;
+    position: relative;
+    bottom: 1px;
+}
+
+.imgLogoEngine_listItem {
+    height: 20px;
+    width: 20px;
+    bottom: 2px;
+    margin-right: 10px;
 }
