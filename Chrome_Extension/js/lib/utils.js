@@ -1,10 +1,17 @@
 window.utils = {};
 
+function isObject(data) {
+    return typeof data === 'object' && !Array.isArray(data) && data !== null;
+}
+
 function setStorageItem(varName, data) {
     const storageData = {};
-    storageData[varName] = JSON.stringify(data);
+    storageData[varName] = isObject(data) ? JSON.stringify(data) : data;
+
     chrome.storage.sync.set(storageData, function () {
         console.log('Item saved:', varName);
+        console.log(storageData);
+        console.log('');
     });
 }
 

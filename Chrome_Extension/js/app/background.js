@@ -4,8 +4,19 @@ console.log('background script ran');
 
 let dev = true;
 let domain = dev ? "http://localhost:3000/" : 'https://someBackend.com/';
+const sswitcherKey = 'sswitcher';
+const searchEngineKey = 'searchEngine';
 
 // ----- Init -----
+
+chrome.runtime.onInstalled.addListener(function() {
+    chrome.action.onClicked.addListener(function(tab) {
+        getStorageItem(sswitcherKey, (sswitcherState) => {
+            setStorageItem(sswitcherKey, sswitcherState === 'open' ? 'close' : 'open')
+        })
+    });
+    setStorageItem(searchEngineKey, 'google')
+});
 
 // ----- Utils -----
 
@@ -57,6 +68,7 @@ function setStorageItem(varName, data) {
 
     chrome.storage.sync.set(storageData, function () {
         console.log('Item saved:', varName);
+        console.log(storageData);
     });
 }
 
@@ -68,6 +80,18 @@ function getStorageItem(varName, callback) {
         } else {
             callback(null);
         }
+    });
+}
+
+function removeStorageItem(varName) {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.remove(varName, function (result) {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            } else {
+                resolve(result);
+            }
+        });
     });
 }
 

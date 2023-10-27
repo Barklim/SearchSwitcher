@@ -1,12 +1,12 @@
 ## TODO
 
-- нажатие по расширению должно открывать поиск, повторное закрывать (идея из поп апа передать иввент).
-- добавить заблокированные поисковики
-- enter должен отправлять сообщение
-- при переходе на разные табы должен открываться правильный поисковик
-- при нажатии enter открывается страница, редиректом?
+- when enter button by list in search, open in iframe result or redirect
+- add blocked search engines
+- [draggable](https://interactjs.io/)
+- change theme
+- add button exit right side for close search component
+- backend for auth and subscribe services (get more search engine) 
 - detect browser theme
-- https://interactjs.io/
 - linter, prettier.
 - i18n.
 - create env file.
@@ -20,6 +20,13 @@
 - validation inputs.
 - content util getCurrentTab. (Solve: pass the id off tab in a listener)
 - check web_accessible_resources in manifest.
+
+------
+
+- ✅ shadow dom search component for isolate styles.
+- ✅ click icon extension close or open search component in any tabs.
+- ✅ search debounce.
+- ✅ when switching to different tabs, the correct search engine should open.
 
 ## Notes
 

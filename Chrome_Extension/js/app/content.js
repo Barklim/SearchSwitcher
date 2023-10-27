@@ -1,4 +1,4 @@
-console.log('content script ran');
+// console.log('content script ran');
 
 // ----- Config -----
 
@@ -7,6 +7,11 @@ const themeLight = 'light'
 const DEBOUNCE_TIME = 300;
 const searchInputId = 'SSsearch';
 const sourceCssLinks = ["css/darkly-bootswatch.css", "css/searchInput.css"];
+
+let sswitcherState = 'close';
+let searchEngineState = 'google';
+const sswitcherKey = 'sswitcher';
+const searchEngineKey = 'searchEngine';
 
 const urlGoogle = "https://www.google.com/";
 const urlYandex = "https://www.google.com/";
@@ -23,35 +28,25 @@ body.appendChild(shadowHost);
 const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
 window.addEventListener('load', async () => {
-    // TODO get theme
-    console.log('Content.js Loaded');
-
     const scriptCssPromises = sourceCssLinks.map(sourceLink => fetchScript(sourceLink));
     let arrCssContentText = [];
     const cssPromise = Promise.all(scriptCssPromises);
 
     Promise.all([cssPromise])
         .then(([cssScriptTexts]) => {
-            console.log("All CSS Scripts successfully loaded:");
+            // console.log("All CSS Scripts successfully loaded:");
             cssScriptTexts.forEach((scriptText, index) => {
-                console.log(`Script ${sourceCssLinks[index]}:\n`);
+                // console.log(`Script ${sourceCssLinks[index]}:\n`);
                 arrCssContentText.push(scriptText);
             });
 
             createInput(arrCssContentText);
-
-            initBootstrapJs()
-
-            initSearchListener()
+            initListeners()
 
         })
         .catch(error => {
             console.error("Error load scripts:", error);
         });
-
-    // getStorageItem('theme', function (interrupted) {
-    //     if (theme) {}
-    // });
 });
 
 // ----- Create html -----
@@ -156,10 +151,10 @@ function createInput(arrCss) {
     //      aria-haspopup="true"
     //      aria-expanded="false">Dropdown</a>
     const navLinkEl = document.createElement('a');
+    navLinkEl.id = 'dropdown';
     navLinkEl.classList.add('nav-link');
     navLinkEl.classList.add('dropdown-toggle');
     navLinkEl.setAttribute('data-bs-toggle', 'dropdown');
-    navLinkEl.href = '#';
     navLinkEl.setAttribute('role', 'button');
     navLinkEl.setAttribute('aria-haspopup', 'true');
     navLinkEl.setAttribute('aria-expanded', 'false');
@@ -175,14 +170,12 @@ function createInput(arrCss) {
     const dropDownItemGoogleEl = document.createElement('a');
     dropDownItemGoogleEl.id = 'googleListItem';
     dropDownItemGoogleEl.classList.add('dropdown-item');
-    dropDownItemGoogleEl.href = '#';
     dropDownItemGoogleEl.innerHTML = 'G(icon) Google';
     dropDownEl.appendChild(dropDownItemGoogleEl);
 
     const dropDownItemYandexEl = document.createElement('a');
     dropDownItemYandexEl.id = 'yandexListItem';
     dropDownItemYandexEl.classList.add('dropdown-item');
-    dropDownItemYandexEl.href = '#';
     dropDownItemYandexEl.innerHTML = 'Y(icon) Yandex';
     dropDownEl.appendChild(dropDownItemYandexEl);
 
@@ -226,11 +219,6 @@ function createInput(arrCss) {
 
 // ----- Utils -----
 
-// Use background.js instead?
-function setStorageItem(varName, data) {}
-
-function getStorageItem(varName, callback) {}
-
 function checkScriptAccessibility() {
     if (typeof Popper !== 'undefined') {
         console.log('Popper.js is available');
@@ -251,24 +239,6 @@ function checkScriptAccessibility() {
     }
 }
 
-function initBootstrapJs() {
-    const burgerButton = shadowRoot.querySelector('.navbar-toggler');
-    const navBarCollapse = shadowRoot.querySelector('.navbar-collapse');
-
-    burgerButton.addEventListener('click', () => {
-        navBarCollapse.classList.toggle('show');
-    });
-
-    const dropdownToggle = shadowRoot.querySelectorAll('.dropdown-toggle');
-
-    dropdownToggle.forEach((toggle) => {
-        toggle.addEventListener('click', (e) => {
-            const dropdownMenu = e.target.nextElementSibling;
-            dropdownMenu.classList.toggle('show');
-        });
-    });
-}
-
 function debounce(func, delay) {
     let timeout;
     return function () {
@@ -279,16 +249,52 @@ function debounce(func, delay) {
     };
 }
 
-function initSearchListener() {
-    const inputElement = shadowRoot.getElementById(searchInputId);
-    handleInput();
-    inputElement.addEventListener('input', debounce(handleInput, DEBOUNCE_TIME));
-}
-
 function handleInput() {
     const inputElement = shadowRoot.getElementById(searchInputId);
     const inputValue = inputElement.value;
     console.log(`You typed: ${inputValue}`)
+}
+
+function storageChangeHandler(changes, areaName) {
+    if (areaName === 'sync') {
+        for (let key in changes) {
+            const storageChange = changes[key];
+            const keyValue = storageChange.newValue;
+
+            if (keyValue === 'close' || keyValue === 'open') {
+                sswitcherState = keyValue;
+                changeSSwitcherState();
+            }
+            if (keyValue === 'google' || keyValue === 'yandex') {
+                searchEngineState = keyValue;
+                changeSearchEngineState(keyValue)
+            }
+            // console.log(`Key "${key}" was changed. New value: ${keyValue}`);
+        }
+    }
+}
+
+function changeSSwitcherState() {
+    if (sswitcherState === 'close') {
+        shadowHost.classList.add('displayNone')
+    } else {
+        shadowHost.classList.remove('displayNone')
+    }
+}
+
+function changeSearchEngineState(seState) {
+    const dropdown = shadowRoot.querySelector('#dropdown');
+
+    switch(seState) {
+        case 'google':
+            dropdown.innerHTML = 'google';
+            break;
+        case 'yandex':
+            dropdown.innerHTML = 'yandex';
+            break;
+        default:
+            dropdown.innerHTML = 'google';
+    }
 }
 
 function fetchScript(path) {
@@ -308,4 +314,90 @@ function fetchScript(path) {
                 reject(error);
             });
     });
+}
+
+// ----- Listeners -----
+
+function initListeners() {
+    initToggle()
+    initDropDown()
+    initSearchListener()
+    initSwitcherVisibility()
+    initSearchEngine()
+}
+
+function initToggle() {
+    const burgerButton = shadowRoot.querySelector('.navbar-toggler');
+    const navBarCollapse = shadowRoot.querySelector('.navbar-collapse');
+
+    burgerButton.addEventListener('click', () => {
+        navBarCollapse.classList.toggle('show');
+    });
+
+    const dropdownToggle = shadowRoot.querySelectorAll('.dropdown-toggle');
+
+    dropdownToggle.forEach((toggle) => {
+        toggle.addEventListener('click', (e) => {
+            const dropdownMenu = e.target.nextElementSibling;
+            dropdownMenu.classList.toggle('show');
+        });
+    });
+}
+
+function initDropDown() {
+    const google = shadowRoot.querySelector('#googleListItem');
+    const yandex = shadowRoot.querySelector('#yandexListItem');
+    const dropdown = shadowRoot.querySelector('#dropdown');
+
+    google.addEventListener('click', () => {
+        setStorageItem(searchEngineKey, 'google');
+    });
+
+    yandex.addEventListener('click', () => {
+        setStorageItem(searchEngineKey, 'yandex');
+    });
+
+    utils.getStorageItem(searchEngineKey, (seState) => {
+        switch(seState) {
+            case 'google':
+                dropdown.innerHTML = 'google2';
+                break;
+            case 'yandex':
+                dropdown.innerHTML = 'yandex2';
+                break;
+            default:
+                dropdown.innerHTML = 'google3';
+        }
+    })
+}
+
+function initSearchListener() {
+    const inputElement = shadowRoot.getElementById(searchInputId);
+    handleInput();
+    inputElement.addEventListener('input', debounce(handleInput, DEBOUNCE_TIME));
+}
+
+function initSwitcherVisibility() {
+    utils.getStorageItem(sswitcherKey, (ssState) => {
+        if (ssState === 'open' || ssState === 'close') {
+            sswitcherState = ssState
+        }
+        changeSSwitcherState();
+    })
+
+    chrome.storage.onChanged.addListener(storageChangeHandler);
+}
+
+function initSearchEngine() {
+    utils.getStorageItem('sswitcher', (seState) => {
+        if (seState === 'open' || seState === 'close') {
+            searchEngineState = seState
+        }
+        if (seState === 'google' || seState === 'yandex') {
+            searchEngineState = seState
+            changeSearchEngineState(seState);
+        }
+    })
+
+    chrome.storage.onChanged.addListener(storageChangeHandler);
 }
