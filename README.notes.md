@@ -69,3 +69,17 @@ fetch(chrome.runtime.getURL('../../css/darkly-bootswatch.css'))
 - [Angular scope](https://code.angularjs.org/1.2.27/docs/guide/scope)
 - [bootswatch](https://bootswatch.com/)
 - example of chrome [extension](https://github.com/Barklim/onlyfExtension/tree/main/Chrome_Extension/js/app) (private)
+
+
+Minty Morph
+//
+search engine
+yahooo bing yandex google DuckDuckGo
+https://www.google.com/imgres?imgurl=https%3A%2F%2Fmir-s3-cdn-cf.behance.net%2Fproject_modules%2F1400%2Ff215fd105733919.5f7f6834a887b.png&tbnid=53FURgH_Z_vUMM&vet=10CB4QMyh1ahcKEwjYpZOkx5CCAxUAAAAAHQAAAAAQAw..i&imgrefurl=https%3A%2F%2Fwww.behance.net%2Fgallery%2F105733919%2FYANDEX&docid=Pa594_qNZQTexM&w=1400&h=651&q=google%20yandex%20search%20icon&ved=0CB4QMyh1ahcKEwjYpZOkx5CCAxUAAAAAHQAAAAAQAw
+
+https://www.flaticon.com/ru/search?word=yahoo
+https://www.iconfinder.com/search?q=search+engine
+https://www.iconfinder.com/search/icons?family=free-button-icons
+https://www.google.com/search?q=google+yandex+bing+yahoo+duckduckgo&tbm=isch&ved=2ahUKEwjotcijx5CCAxXK2zgGHYheCeAQ2-cCegQIABAA&oq=google+yandex+bing+yahoo+duckduckgo&gs_lcp=CgNpbWcQAzoECCMQJzoGCAAQCBAeUIsiWL9tYMpvaAJwAHgBgAFuiAGhDpIBBDIzLjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=urM4ZejwJMq34-EPiL2lgA4&bih=879&biw=1920#imgrc=E6LiMxt5fueVDM
+
+https://www.google.com/search?q=google+yandex+bing+yahoo+duckduckgo&tbm=isch&ved=2ahUKEwjotcijx5CCAxXK2zgGHYheCeAQ2-cCegQIABAA&oq=google+yandex+bing+yahoo+duckduckgo&gs_lcp=CgNpbWcQAzoECCMQJzoGCAAQCBAeUIsiWL9tYMpvaAJwAHgBgAFuiAGhDpIBBDIzLjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=urM4ZejwJMq34-EPiL2lgA4&bih=879&biw=1920#imgrc=gMP2JhDXgh7lLM
