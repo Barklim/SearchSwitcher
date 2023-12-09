@@ -2,10 +2,8 @@
 
 This extension allow you to use your lovely search engines everywhere. 
 
-Developer [notes](https://github.com/Barklim/SearchSwitcher/README.notes.md)
-
-- [Documentation](https://github.com/Barklim/SearchSwitcher/README.docs.md)
-- [Developer notes](https://github.com/Barklim/SearchSwitcher/README.notes.md)
+- [Documentation](https://github.com/Barklim/SearchSwitcher/blob/main/README.docs.md)
+- [Developer notes](https://github.com/Barklim/SearchSwitcher/blob/main/README.notes.md)
 
 <img src="img/pic1.png">
 
